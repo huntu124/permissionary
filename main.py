@@ -61,6 +61,9 @@ CLOSERS = {
     "n": "So it says no, and says it in a poem, which is the kindest no there is.",
 }
 
+STRICT_NOTE = ("strict keeps its promise: it will not rhyme with a file that "
+               "refuses to be read. Poetry should not be extracted from the unwilling.")
+
 ASKING_POEM = """A Poem About Asking Permission
 
 Before I touch the sleeping byte,
@@ -171,7 +174,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     mode = stat.S_IMODE(os.stat(args.path).st_mode)
     if args.strict and not (mode & 0o444):
-        print("permissionary: strict mode will not rhyme with a fully denied file.", file=sys.stderr)
+        print(f"permissionary: {STRICT_NOTE}", file=sys.stderr)
         return 2
     print(compose(args.path, mode))
     return 0
